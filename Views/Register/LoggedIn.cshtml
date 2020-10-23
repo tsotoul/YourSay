@@ -1,0 +1,21 @@
+﻿@model YourSay.Models.UserAccount
+
+@{
+    ViewBag.Title = "LoggedIn";
+}
+
+<!--Interim view shown when the user logs in to his account-->
+    <div class="main_col">
+        @if (Session["UserID"] != null)
+        {
+            //Greeting message using the session Username
+            <h2>Hello @Session["Username"].ToString()</h2>          
+        }
+
+        <br />
+        <h3> You can visit:</h3>
+        <!--Links for the user to visit-->
+        <h4><a href="~/Home/Home">Homepage</a></h4>
+        <h4><a href="~/Causes/Causes">Causes</a></h4>
+        <h4><a href="~/Create/Create">Create a cause</a></h4>
+    </div>

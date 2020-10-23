@@ -1,0 +1,47 @@
+﻿<!--
+   This View is only to be used by the developer and the admin in order to see the whole list of users 
+-->
+
+@model IEnumerable<YourSay.Models.UserAccount>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Members</h2>
+
+<!--List of users saved to DbSet-->
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+    </tr>
+}
+</table>

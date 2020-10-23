@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<YourSay.Models.Causes>
+<!-- First paragraph -->
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+        <h1>LATEST CAUSES</h1>
+        <p>
+            Below you can find our latest active causes. Select the <a href="~/Causes/Causes"> causes </a> from the menu to see the
+            details and sign the cause.
+        </p>
+        <p>YourSay Matters</p>
+        </div>
+    </div>
+
+<!-- Latest causes -->
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+        <div class="main">
+            <a href="#">
+                <!--Iterate through the model passed from the Controller-->
+                @foreach (var item in Model)
+                {
+                    <div class="causes">
+                        <a class="head">@item.Title</a>
+                        <p>@item.Details</p><br>
+                        <div class="extra">
+                            <p>Category:  <span>@item.Category</span>&nbsp;&nbsp;&nbsp;</p>
+                            <p>Counter:  <span>@item.Counter</span>&nbsp;&nbsp;&nbsp;</p>
+                        </div>
+                    </div><br />
+                }
+                <br />
+                <div class="browse-more">
+                    <p>See more</p>
+                    <a href="~/Causes/Causes"><img class="below" src="~/images/below.png" alt="below image"></a>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Second image and text -->
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+        <img class="middle-image" src="~/images/middle.jpg" alt="middle image">
+        <div class="tex">
+            <h4>About us</h4>
+            <p>
+                We are a small team of individuals who care about the future of our children.
+                In 2011, three enthousiastic friends agreed on acting for the worlds benefit.
+                They decided to start an online organisation which will gather, communicate and inform
+                people on serious issues that affect their lives. YourSay was born.
+                A few years later, this community numbers thousands of "comrades", simple people that
+                are creating causes and petitions related to tax, enviroment, education, law, employment,
+                racism and many more.
+            </p>
+            <p>Our community is free and expanding. Why not join us?</p>
+        </div>
+    </div>
+</div>
+<br />
+
+<!-- Second paragraph -->
+<div class="row justify-content-center">
+    <div class="container"></div>
+    <div class="row">
+        <div class="second-paragraph">
+            <h1>TESTIMONIALS</h1>
+            <p>See below what people think about us.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials -->
+<div class="row justify-content-center">
+    <div class="container">
+        <div class="test">
+            <div class="test-text">
+                <p>
+                    <i>
+                        An excellent application where simple people can express themselves
+                        and motivate more and more people to do the same. Highly recommended.
+                    </i>
+                </p><br />
+                <p class="text-name"><i>- John McCue</i></p>
+            </div> <br />
+            <img class="profile" src="~/images/profile.jpg" alt="profile">
+        </div>
+        <div class="test">
+            <div class="test-text">
+                <p>
+                    <i>
+                        Fantastic idea, brilliant application. I hope more and more people
+                        take part in this. Thank you very much.
+                    </i>
+                </p><br />
+                <p class="text-name"><i>- Jennifer Lawson</i></p>
+            </div> <br />
+            <img class="profile" src="~/images/profile.jpg" alt="profile">
+        </div>
+        <div class="test">
+            <div class="test-text">
+                <p>
+                    <i>
+                        From the very first moment I was astonished of your service.
+                        You bring hope to the community, keep up the good work.
+                    </i>
+                </p><br />
+                <p class="text-name"><i>- Paul Clark</i></p>
+            </div> <br />
+            <img class="profile" src="~/images/profile.jpg" alt="profile">
+        </div>
+        <div class="test">
+            <div class="test-text">
+                <p>
+                    <i>
+                        Why not take your future in your hands? Simply
+                        create a cause for a matter that concerns you and let the others now. Amazing!
+                    </i>
+                </p><br />
+                <p class="text-name"><i>- Edinburgh Evening News</i></p>
+            </div> <br />
+            <img class="profile" src="~/images/profile.jpg" alt="profile">
+        </div>
+    </div>
+</div>
+<!-- Third image and text -->
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+        <img class="middle-image" src="~/images/middle.jpg" alt="middle image">
+        <div class="tex">
+            <h4>Our figures and facts</h4><br />
+            <p>
+                - More than 250,000 people have visitied our causes.<br />
+                - We are affiliated with all major charity organisations.<br />
+                - Want to donate? Thank you in advance<br />
+                - BBC, itv, The guardian have talked about us and hosted our causes.
+            </p>
+        </div>
+    </div>
+</div>
+

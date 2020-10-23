@@ -1,0 +1,103 @@
+﻿@model IEnumerable<YourSay.Models.Causes>
+
+@{
+    ViewBag.Title = "Causes2";
+}
+
+<!-- First Paragraph -->
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+        <h1>CAUSES</h1>
+        <p>Below you can find all the active causes. Click to sign to the cause.</p>
+    </div>
+</div>
+
+<!-- Table to show the causes-->
+<p>
+    @Html.ActionLink("Create a new cause", "Create")
+</p>
+<table class="table table-hover table-striped">
+    <tr class="thead-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Counter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supporters)
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td id="count">
+                @Html.DisplayFor(modelItem => item.Counter)
+            </td>
+            <td>
+                <button class="btn btn-secondary btn-sm show" type="button" data-id="@item.Title">Show</button>
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "RemoveCause", new { title = item.Title })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<!--Table to show the supporters (Username) of each cause-->
+<table id="sups" class="table table-hover table-striped">
+    <thead>
+        <tr class="thead-dark">
+            <th>Supporters</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<!--Scripts to call ajax requests on button press-->
+<script type="text/javascript">                                                    
+    $(".show").click(function () {                                              //When show button is pressed
+        $('#sups tbody > tr').remove();                                         //Clear existing supporters table
+        var title = $(this).data('id');                                         //Capture the title
+        var items = $("#sups");                                                 //Select the table to populate the results
+
+        $.ajax({
+            type: "POST",
+            url: "/Causes/Show",                                                //Send the request to the relevant action
+            contentType: "application/json; charset=utf-8",
+            data: '{"Title":"' + title + '"}',
+            dataType: "json",
+
+            success: function (result) {                                        //Get the result back
+                var test = result.Supporter;
+                var supporters = test.split(" ");
+                $.each(supporters, function (index, value) {
+                    items.append("<tr><td>" + value + "</td>");                 //Append the result to the supporters table
+                });
+            },
+            error: function () {
+                alert("Error while inserting data");                            //Show message if error
+            }
+        })
+    })
+</script>

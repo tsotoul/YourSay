@@ -1,0 +1,150 @@
+﻿@model IEnumerable<YourSay.Models.Causes>
+
+@{
+    ViewBag.Title = "Causes";
+}
+
+<!-- First Paragraph -->
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+        <h1>CAUSES</h1>
+        <p>Below you can find all the active causes. Click to sign to the cause.</p>
+    </div>
+</div>
+
+
+<!-- Table to show the causes-->
+<p>
+    @Html.ActionLink("Create a new cause", "Create", "Create")
+</p>
+<table class="table table-hover table-striped">
+    <tr class="thead-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Counter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supporters)
+        </th>
+        <th>Sign</th>
+        <th>Share</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td class="@item.CauseId">
+                @Html.DisplayFor(modelItem => item.Counter)
+            </td>
+            <td>
+                <button class="btn btn-secondary btn-sm show" type="button" data-id="@item.Title">Show</button>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-sm sign" type="button" data-id="@item.CauseId">Sign</button>
+            </td>
+            <td>
+                <!--facebook share (will only work if website is online - replace item.Title with page link)-->
+                <a href="https://www.facebook.com/sharer/sharer.php?u=@Url.Encode(Request.Url.ToString())&t=@Url.Encode(item.Title)"
+                   target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <!--twitter share (will only work if website is online - replace item.Title with page link)-->
+                <a href="https://twitter.com/intent/tweet?url=@Url.Encode(Request.Url.ToString())&text=@Url.Encode(item.Title)"
+                   target="_blank" title="Tweet">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <!--reddit share (will only work if website is online - replace item.Title with page link)-->
+                <a href="http://www.reddit.com/submit?url=@Url.Encode(Request.Url.ToString())&title=@Url.Encode(item.Title)"
+                   target="_blank" title="Submit to Reddit">
+                    <i class="fab fa-reddit"></i>
+                </a>
+                <!--pinterest share (will only work if website is online - replace item.Title with page link)-->
+                <a href="http://pinterest.com/pin/create/button/?url=@Url.Encode(Request.Url.ToString())&description=@Url.Encode(item.Title)"
+                   target="_blank" title="Pin it">
+                    <i class="fab fa-pinterest"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<!--Table to show the supporters (Username) of each cause-->
+<table id="sups" class="table table-hover table-striped">
+    <thead>
+        <tr class="thead-dark">
+            <th>Supporters</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<!--Scripts to call ajax requests on button press-->
+<script type="text/javascript">
+    $(".show").click(function () {                              //When show button is pressed
+        $('#sups tbody > tr').remove();                         //Clear existing supporters table
+        var title = $(this).data('id');                         //Capture the title
+        var items = $("#sups");                                 //Select the table to populate the results
+
+        $.ajax({
+            type: "POST",
+            url: "/Causes/Show",                                //Send the request to the relevant action
+            contentType: "application/json; charset=utf-8", 
+            data: '{"Title":"' + title + '"}',                  
+            dataType: "json",
+
+            success: function (result) {                        //Get the result back
+                var test = result.Supporter;                
+                var supporters = test.split(" ");
+                $.each(supporters, function (index, value) {    
+                    items.append("<tr><td>" + value + "</td>"); //Append the result to the supporters table
+                });
+            },
+            error: function () {
+                alert("Error while inserting data");            //Show message if error
+            }
+        })
+    })
+
+    $(".sign").click(function () {                              //When sign button is pressed
+        var id = $(this).data('id');                            //Capture the id
+        
+        $.ajax({
+            type: "POST",
+            url: "/Causes/Sign",                                //Send the request to the relevant action
+            contentType: "application/json; charset=utf-8",
+            data: '{"ID":"' + id + '"}',
+            dataType: "json",
+
+            success: function (result) {
+                if (result == $("." + id).val()) {              //Check if the user has already signed to the cause
+                    alert("You have already signed to the cause");
+                } else {
+                    $("." + id).html(result);                   //Increment the counter by 1
+                    alert("You have signed to the cause");      //Alert the user
+                }
+            },
+            error: function () {
+                alert("Error while inserting data");            //Show error message if unsuccessful
+            }
+        })
+    })
+</script>
